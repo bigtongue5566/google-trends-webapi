@@ -1,7 +1,9 @@
-const express = require('express')
-const app = express()
+const express = require('express');
+const app = express();
 const googleTrends = require('google-trends-api');
 const dayjs = require('dayjs');
+const cors = require('cors');
+app.use(cors());
 
 app.get('/pastmonth', (req, res) => {
     new Promise((resolve,reject)=>{
@@ -16,7 +18,7 @@ app.get('/pastmonth', (req, res) => {
     }).then((result)=>{
         res.json(result)
     })
-})
+});
 app.get('/pasthalfyear', (req, res) => {
     new Promise((resolve,reject)=>{
         googleTrends.interestOverTime({keyword: req.query.keyword,startTime : dayjs().subtract(6, 'month').toDate()})
@@ -30,7 +32,7 @@ app.get('/pasthalfyear', (req, res) => {
     }).then((result)=>{
         res.json(result)
     })
-})
+});
 app.get('/pastyear', (req, res) => {
     new Promise((resolve,reject)=>{
         googleTrends.interestOverTime({keyword: req.query.keyword,startTime : dayjs().subtract(1, 'year').toDate()})
@@ -44,6 +46,6 @@ app.get('/pastyear', (req, res) => {
     }).then((result)=>{
         res.json(result)
     })
-})
+});
 var port = process.env.PORT || 3000;
 app.listen(port, () => console.log(`Example app listening on port ${port}`));
